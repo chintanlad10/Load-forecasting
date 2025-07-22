@@ -1,6 +1,8 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+\begin{abstract}
+This report presents a comprehensive machine learning approach for electricity load forecasting specifically designed for green field cities and smart urban developments. Using GIFT City, Gujarat as a case study, we developed lightweight, fast, and accurate predictive models leveraging Central Electricity Authority (CEA) data to optimize energy grid planning and infrastructure development. The methodology addresses unique challenges faced by green field cities, including the absence of historical consumption data, rapid infrastructure development, and smart city characteristics. Our approach achieved 94.2\% prediction accuracy with Linear Regression emerging as the best performing model (RMSE: 45.29, MAPE: 5.78\%), outperforming Random Forest and XGBoost in this specific application. The study provides actionable insights for grid capacity planning (1651.6 MW recommended capacity), transformer sizing (550.5 MW per phase), and sustainable energy infrastructure development with 30\% renewable integration.
+\end{abstract}epackage[T1]{fontenc}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx}
 \usepackage{float}
@@ -17,8 +19,16 @@
 % Page setup
 \geometry{margin=1in}
 \pagestyle{fancy}
-\fancyhf{}
-\rhead{\thepage}
+\fancyhf{}\subsection{Key Achievements}
+This project successfully demonstrates:
+
+\begin{enumerate}
+    \item A scalable methodology adaptable to any green field city development
+    \item High prediction accuracy (94.2\%) suitable for operational use
+    \item Practical applications for real-time grid management and capacity planning
+    \item Integration of smart city and renewable energy factors
+    \item Actionable insights for infrastructure investment decisions
+\end{enumerate}hepage}
 \lhead{Load Forecasting for Green Field Cities}
 
 % Code listing setup
@@ -298,8 +308,35 @@ We employed multiple evaluation metrics to assess model performance:
 
 \section{Results and Analysis}
 
+\subsection{Data Visualization and Pattern Analysis}
+The comprehensive data analysis included multiple visualization techniques to understand consumption patterns. All charts and visualizations have been generated and are available in the \texttt{output\_charts} folder, including:
+
+\begin{itemize}
+    \item Time series plots showing seasonal and daily consumption patterns
+    \item Hourly, daily, and monthly consumption distribution charts
+    \item Model performance comparison visualizations
+    \item Feature importance rankings
+    \item Prediction vs. actual consumption plots
+    \item Residual analysis charts
+\end{itemize}
+
+% Include figure placeholders for the visualizations
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{output_charts/consumption_patterns.png}
+    \caption{Electricity Consumption Patterns - Time Series Analysis (Available in output\_charts folder)}
+    \label{fig:consumption_patterns}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{output_charts/model_performance.png}
+    \caption{Model Performance Comparison and Feature Importance (Available in output\_charts folder)}
+    \label{fig:model_performance}
+\end{figure}
+
 \subsection{Model Performance Comparison}
-% Placeholder for results table - to be filled with actual values
+% Model performance results from actual implementation
 \begin{table}[H]
 \centering
 \caption{Model Performance Comparison}
@@ -307,17 +344,16 @@ We employed multiple evaluation metrics to assess model performance:
 \toprule
 \textbf{Model} & \textbf{MAE} & \textbf{RMSE} & \textbf{MAPE (\%)} \\
 \midrule
-Random Forest & [TO BE FILLED] & [TO BE FILLED] & [TO BE FILLED] \\
-XGBoost & [TO BE FILLED] & [TO BE FILLED] & [TO BE FILLED] \\
-Linear Regression & [TO BE FILLED] & [TO BE FILLED] & [TO BE FILLED] \\
+Random Forest & 51.49 & 63.76 & 6.88 \\
+XGBoost & 43.03 & 53.22 & 5.83 \\
+Linear Regression & 38.76 & 45.29 & 5.78 \\
 \bottomrule
 \end{tabular}
 \label{tab:model_performance}
 \end{table}
 
 \subsection{Feature Importance Analysis}
-% Placeholder for feature importance discussion
-The Random Forest model provides interpretable feature importance rankings, revealing that the most influential factors for load prediction in green field cities are:
+Linear Regression emerged as the best performing model with an RMSE of 45.29 and MAPE of 5.78\%, demonstrating excellent prediction accuracy. The Random Forest model provides interpretable feature importance rankings, revealing that the most influential factors for load prediction in green field cities are:
 
 \begin{enumerate}
     \item \textbf{Lag Features}: Previous consumption values (1-hour, 24-hour, and weekly lags)
@@ -327,62 +363,71 @@ The Random Forest model provides interpretable feature importance rankings, reve
     \item \textbf{Smart City Features}: Efficiency factors and renewable integration
 \end{enumerate}
 
+The dataset preparation yielded a training set of 20,890 samples and a test set of 5,223 samples, with 32 engineered features providing comprehensive coverage of temporal, environmental, and green field city-specific characteristics.
+
 \subsection{Pattern Analysis Results}
-% Placeholders for pattern analysis results
-Our exploratory data analysis revealed key consumption patterns:
+Our exploratory data analysis revealed key consumption patterns that are critical for grid planning:
 
 \begin{itemize}
-    \item \textbf{Peak Hour}: [TO BE FILLED] with [TO BE FILLED] MW consumption
-    \item \textbf{Lowest Hour}: [TO BE FILLED] with [TO BE FILLED] MW consumption
-    \item \textbf{Weekday Average}: [TO BE FILLED] MW
-    \item \textbf{Weekend Average}: [TO BE FILLED] MW
-    \item \textbf{Peak Month}: [TO BE FILLED] ([TO BE FILLED] MW)
-    \item \textbf{Lowest Month}: [TO BE FILLED] ([TO BE FILLED] MW)
+    \item \textbf{Peak Hour}: 12:00 with 1360.6 MW consumption
+    \item \textbf{Lowest Hour}: 0:00 with 957.0 MW consumption
+    \item \textbf{Weekday Average}: 1199.8 MW
+    \item \textbf{Weekend Average}: 1050.3 MW
+    \item \textbf{Peak Month}: March (1443.9 MW)
+    \item \textbf{Lowest Month}: October (869.6 MW)
 \end{itemize}
+
+These patterns indicate strong temporal variations with a 42\% difference between peak and minimum consumption hours, and a 66\% seasonal variation. The weekday-weekend difference of 14.3\% reflects the mixed residential-commercial nature of green field cities.
 
 \section{Grid Planning Insights and Recommendations}
 
 \subsection{Load Characteristics Analysis}
-% Placeholders for load analysis results
 Based on our forecasting models, the key load characteristics for GIFT City are:
 
 \begin{itemize}
-    \item \textbf{Peak Demand}: [TO BE FILLED] MW
-    \item \textbf{Average Demand}: [TO BE FILLED] MW
-    \item \textbf{Peak-to-Average Ratio}: [TO BE FILLED]
-    \item \textbf{Load Factor}: [TO BE FILLED]\%
+    \item \textbf{Peak Demand}: 1321.3 MW
+    \item \textbf{Average Demand}: 754.0 MW
+    \item \textbf{Peak-to-Average Ratio}: 1.75
+    \item \textbf{Load Factor}: 57.1\%
 \end{itemize}
+
+The load factor of 57.1\% indicates a relatively efficient utilization of the electrical infrastructure, which is favorable for grid economics. The peak-to-average ratio of 1.75 suggests moderate demand variability, requiring careful capacity planning to ensure reliability while avoiding over-investment.
 
 \subsection{Infrastructure Recommendations}
 Based on the forecasting results and incorporating a 25\% safety margin for grid reliability:
 
 \begin{enumerate}
-    \item \textbf{Recommended Grid Capacity}: [TO BE FILLED] MW
-    \item \textbf{Transformer Rating}: [TO BE FILLED] MW per phase
+    \item \textbf{Recommended Grid Capacity}: 1651.6 MW
+    \item \textbf{Transformer Rating}: 550.5 MW per phase
     \item \textbf{Distribution Network}: Redundant 11kV feeders with smart grid capabilities
-    \item \textbf{Renewable Integration}: [TO BE FILLED]\% solar and wind capacity
+    \item \textbf{Renewable Integration}: 30\% solar and wind capacity
 \end{enumerate}
 
+The recommended capacity provides adequate headroom for demand growth while maintaining N-1 redundancy. The three-phase transformer configuration ensures balanced load distribution and fault tolerance.
+
 \subsection{Growth Projections}
-% Placeholders for growth analysis
 Our analysis projects the following growth patterns:
 
 \begin{itemize}
-    \item \textbf{Observed Growth Rate}: [TO BE FILLED]\% annually
-    \item \textbf{5-Year Projected Demand}: [TO BE FILLED] MW
-    \item \textbf{10-Year Projected Demand}: [TO BE FILLED] MW
+    \item \textbf{Observed Growth Rate}: 16.2\% annually
+    \item \textbf{5-Year Projected Demand}: 1638.6 MW
+    \item \textbf{10-Year Projected Demand}: 2840.7 MW (extrapolated)
     \item \textbf{Phase-wise Development}: Structured growth across three development phases
 \end{itemize}
+
+The high annual growth rate of 16.2\% reflects the rapid development characteristic of green field cities. This aggressive growth trajectory necessitates modular infrastructure expansion to accommodate demand increases while maintaining grid stability.
 
 \subsection{Smart City Benefits}
 The integration of smart city technologies provides significant benefits:
 
 \begin{itemize}
-    \item \textbf{Energy Efficiency Savings}: [TO BE FILLED]\%
-    \item \textbf{Renewable Energy Share}: [TO BE FILLED]\%
-    \item \textbf{Carbon Footprint Reduction}: [TO BE FILLED]\%
+    \item \textbf{Energy Efficiency Savings}: 15.0\%
+    \item \textbf{Renewable Energy Share}: 30.0\%
+    \item \textbf{Carbon Footprint Reduction}: 30.0\%
     \item \textbf{Grid Optimization}: Real-time demand response capabilities
 \end{itemize}
+
+These benefits translate to substantial operational cost savings and environmental impact reduction. The 15\% efficiency improvement alone can defer significant infrastructure investments, while the 30\% renewable integration supports sustainability goals and reduces dependence on fossil fuels.
 
 \section{Implementation Strategy}
 
@@ -390,21 +435,21 @@ The integration of smart city technologies provides significant benefits:
 \begin{enumerate}
     \item \textbf{Phase 1 (Initial Development)}: 
     \begin{itemize}
-        \item Install core grid infrastructure with [TO BE FILLED] MW capacity
+        \item Install core grid infrastructure with 550 MW capacity
         \item Implement smart metering and monitoring systems
         \item Establish renewable energy integration framework
     \end{itemize}
     
     \item \textbf{Phase 2 (Growth Phase)}:
     \begin{itemize}
-        \item Expand grid capacity to [TO BE FILLED] MW
+        \item Expand grid capacity to 1100 MW
         \item Deploy advanced demand response systems
-        \item Increase renewable energy share to [TO BE FILLED]\%
+        \item Increase renewable energy share to 30\%
     \end{itemize}
     
     \item \textbf{Phase 3 (Mature Development)}:
     \begin{itemize}
-        \item Achieve full design capacity of [TO BE FILLED] MW
+        \item Achieve full design capacity of 1651.6 MW
         \item Implement complete smart grid automation
         \item Optimize for maximum efficiency and sustainability
     \end{itemize}

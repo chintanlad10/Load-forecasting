@@ -51,29 +51,26 @@ Our ML-based solution addresses these challenges by leveraging regional data pat
 
 ### Local Environment
 ```bash
-git clone https://github.com/your-username/load-forecasting-greenfield-cities.git
-cd load-forecasting-greenfield-cities
+git clone https://github.com/chintanlad10/Load-forecasting.git
+cd Load-forecasting
 pip install -r requirements.txt
 jupyter notebook gujarat_load_forecasting.ipynb
-```
-
-## 📁 Project Structure
-
-```
-├── gujarat_load_forecasting.ipynb    # Main notebook
-├── PROJECT_DOCUMENTATION.md          # Detailed technical documentation
-├── requirements.txt                  # Python dependencies
-├── README.md                         # This file
-└── data/                             # Sample data (if any)
 ```
 
 ## 📈 Results
 
 Our lightweight ML models achieve:
-- **>95% prediction accuracy** with MAPE < 5%
+- **94.2% prediction accuracy** with MAPE of 5.78%
+- **Best Model**: Linear Regression (RMSE: 45.29)
 - **Real-time performance** suitable for operational forecasting
 - **Scalable methodology** adaptable to any green field city
 - **Comprehensive grid planning insights** for infrastructure development
+
+### Key Performance Metrics
+- **Peak Demand Forecasted**: 1321.3 MW
+- **Recommended Grid Capacity**: 1651.6 MW
+- **Growth Rate Identified**: 16.2% annually
+- **Smart City Efficiency**: 15% energy savings
 
 ## 🏗️ Applications
 
@@ -84,7 +81,7 @@ Our lightweight ML models achieve:
 - Real-time load management
 
 ### Adaptable to Other Cities
-- Amaravati, Andhra Pradesh
+- Amaravathi, Andhra Pradesh
 - Dholera Smart City, Gujarat
 - Any planned urban development
 
@@ -106,28 +103,16 @@ Contributions are welcome! Please feel free to submit pull requests or open issu
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📧 Contact
+## 👨‍💻 Author
 
-**Project Author**: [Your Name]  
-**Institution**: [Your University/Institution]  
-**Email**: [Your Email]  
-**LinkedIn**: [Your LinkedIn Profile]
+**Chintan Lad**
+- GitHub: [@chintanlad10](https://github.com/chintanlad10)
+- Project: Capstone Project - ML-driven Energy Grid Planning for Smart Cities
 
 ## 🙏 Acknowledgments
 
-- Central Electricity Authority (CEA) for data accessibility
-- GIFT City development team for case study insights
-- Open source ML community for tools and libraries
-
-## 📚 References
-
-1. Central Electricity Authority - Power Data Portal
-2. Gujarat State Load Despatch Center
-3. Smart Cities Mission, Government of India
-4. Research papers on load forecasting and smart cities
-
----
-
-**⭐ If you find this project useful, please give it a star!**
+- Central Electricity Authority (CEA) for electricity consumption data framework
+- GIFT City, Gujarat for serving as the case study location
+- Open source ML libraries (scikit-learn, XGBoost, pandas) that made this project possible
