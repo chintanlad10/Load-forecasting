@@ -16,6 +16,7 @@
 
 % Page setup
 \geometry{margin=1in}
+\setlength{\headheight}{14.5pt}
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{\thepage}
@@ -310,19 +311,20 @@ The comprehensive data analysis included multiple visualization techniques to un
     \item Residual analysis charts
 \end{itemize}
 
-% Include figure placeholders for the visualizations
+% Time series visualization for consumption patterns
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=0.8\textwidth]{output_charts/consumption_patterns.png}
-    \caption{Electricity Consumption Patterns - Time Series Analysis (Available in output\_charts folder)}
-    \label{fig:consumption_patterns}
+    \includegraphics[width=0.9\textwidth]{daily_and_monthly_consumption_over_time_visual.png}
+    \caption{Time Series Analysis: Daily and Monthly Electricity Consumption Patterns - Shows seasonal variations and overall consumption trends over the analysis period}
+    \label{fig:consumption_timeseries}
 \end{figure}
 
+% Pattern analysis visualization
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=0.8\textwidth]{output_charts/model_performance.png}
-    \caption{Model Performance Comparison and Feature Importance (Available in output\_charts folder)}
-    \label{fig:model_performance}
+    \includegraphics[width=0.9\textwidth]{pattern_insights.png}
+    \caption{Daily and Weekly Pattern Analysis - Comprehensive analysis showing hourly consumption patterns, day-of-week variations, monthly trends, and weekday vs weekend consumption comparisons}
+    \label{fig:pattern_insights}
 \end{figure}
 
 \subsection{Model Performance Comparison}
@@ -354,6 +356,14 @@ Linear Regression emerged as the best performing model with an RMSE of 45.29 and
 \end{enumerate}
 
 The dataset preparation yielded a training set of 20,890 samples and a test set of 5,223 samples, with 32 engineered features providing comprehensive coverage of temporal, environmental, and green field city-specific characteristics.
+
+% Model performance and predictions visualization
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{model_projections.png}
+    \caption{Comprehensive Model Performance Analysis - Four-panel visualization showing: (1) Best model predictions vs actual consumption, (2) Residual analysis for model validation, (3) RMSE comparison across all models, and (4) Feature importance rankings from Random Forest model}
+    \label{fig:model_projections}
+\end{figure}
 
 \subsection{Pattern Analysis Results}
 Our exploratory data analysis revealed key consumption patterns that are critical for grid planning:
