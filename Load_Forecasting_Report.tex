@@ -1,8 +1,6 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\begin{abstract}
-This report presents a comprehensive machine learning approach for electricity load forecasting specifically designed for green field cities and smart urban developments. Using GIFT City, Gujarat as a case study, we developed lightweight, fast, and accurate predictive models leveraging Central Electricity Authority (CEA) data to optimize energy grid planning and infrastructure development. The methodology addresses unique challenges faced by green field cities, including the absence of historical consumption data, rapid infrastructure development, and smart city characteristics. Our approach achieved 94.2\% prediction accuracy with Linear Regression emerging as the best performing model (RMSE: 45.29, MAPE: 5.78\%), outperforming Random Forest and XGBoost in this specific application. The study provides actionable insights for grid capacity planning (1651.6 MW recommended capacity), transformer sizing (550.5 MW per phase), and sustainable energy infrastructure development with 30\% renewable integration.
-\end{abstract}epackage[T1]{fontenc}
+\usepackage[T1]{fontenc}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx}
 \usepackage{float}
@@ -19,16 +17,8 @@ This report presents a comprehensive machine learning approach for electricity l
 % Page setup
 \geometry{margin=1in}
 \pagestyle{fancy}
-\fancyhf{}\subsection{Key Achievements}
-This project successfully demonstrates:
-
-\begin{enumerate}
-    \item A scalable methodology adaptable to any green field city development
-    \item High prediction accuracy (94.2\%) suitable for operational use
-    \item Practical applications for real-time grid management and capacity planning
-    \item Integration of smart city and renewable energy factors
-    \item Actionable insights for infrastructure investment decisions
-\end{enumerate}hepage}
+\fancyhf{}
+\rhead{\thepage}
 \lhead{Load Forecasting for Green Field Cities}
 
 % Code listing setup
@@ -67,7 +57,7 @@ A Machine Learning Approach for Smart Urban Planning}}
 \maketitle
 
 \begin{abstract}
-This report presents a comprehensive machine learning approach for electricity load forecasting specifically designed for green field cities and smart urban developments. Using GIFT City, Gujarat as a case study, we developed lightweight, fast, and accurate predictive models leveraging Central Electricity Authority (CEA) data to optimize energy grid planning and infrastructure development. The methodology addresses unique challenges faced by green field cities, including the absence of historical consumption data, rapid infrastructure development, and smart city characteristics. Our approach achieved over 95\% prediction accuracy using ensemble methods including Random Forest, XGBoost, and Linear Regression, providing actionable insights for grid capacity planning, transformer sizing, and sustainable energy infrastructure development.
+This report presents a comprehensive machine learning approach for electricity load forecasting specifically designed for green field cities and smart urban developments. Using GIFT City, Gujarat as a case study, we developed lightweight, fast, and accurate predictive models leveraging Central Electricity Authority (CEA) data to optimize energy grid planning and infrastructure development. The methodology addresses unique challenges faced by green field cities, including the absence of historical consumption data, rapid infrastructure development, and smart city characteristics. Our approach achieved 94.2\% prediction accuracy with Linear Regression emerging as the best performing model (RMSE: 45.29, MAPE: 5.78\%), outperforming Random Forest and XGBoost in this specific application. The study provides actionable insights for grid capacity planning (1651.6 MW recommended capacity), transformer sizing (550.5 MW per phase), and sustainable energy infrastructure development with 30\% renewable integration.
 \end{abstract}
 
 \tableofcontents
@@ -472,7 +462,7 @@ This project successfully demonstrates:
 
 \begin{enumerate}
     \item A scalable methodology adaptable to any green field city development
-    \item High prediction accuracy ([TO BE FILLED]\%) suitable for operational use
+    \item High prediction accuracy (94.2\%) suitable for operational use
     \item Practical applications for real-time grid management and capacity planning
     \item Integration of smart city and renewable energy factors
     \item Actionable insights for infrastructure investment decisions
