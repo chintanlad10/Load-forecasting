@@ -1,0 +1,28 @@
+{
+  "model_path": "models\\xgboost_energy_requirement.joblib",
+  "features": [
+    "energy_met_mu",
+    "energy_delta_mu",
+    "genco_thermal",
+    "genco_hydel",
+    "genco_total",
+    "cgs_and_purchases",
+    "ipps_gas",
+    "nces_others",
+    "ap_share_tgists",
+    "grand_total",
+    "reversible_pump_consumption",
+    "unrestricted_peak_demand_mw",
+    "deficit_surplus_mw",
+    "year",
+    "month",
+    "day_of_week",
+    "day_of_year",
+    "is_weekend"
+  ],
+  "metrics": {
+    "mae": 4.715736475807358,
+    "mape": 0.021572057278870124,
+    "r2": 0.8339280338289794
+  }
+}
