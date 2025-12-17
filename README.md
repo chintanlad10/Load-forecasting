@@ -1,118 +1,61 @@
-# Load Forecasting for Green Field Cities
+## Greenfield City Energy Forecasting UI
 
-## 🏙️ Energy Grid Optimization for Smart Urban Development
+This repository packages the entire AP Power Supply capstone workflow—from data cleaning and model training to a creative web experience that planners can use to generate daily demand forecasts on demand.
 
-This project implements a machine learning-driven approach for electricity load forecasting specifically designed for green field cities like GIFT City, Gujarat. The solution helps optimize energy grid development and infrastructure planning for smart urban environments.
+### What's inside
 
-## 🎯 Project Overview
+- **`train_model.py`** – deterministic training pipeline that cleans the CSV, engineers calendar signals, fits XGBoost, evaluates on the most recent 15 % of the timeline, and stores the model/metrics.
+- **`models/xgboost_energy_requirement.joblib`** – serialized pipeline (imputer + XGBoost) plus feature ordering for inference.
+- **`artifacts/training_report.json`** – experiment metadata (features, MAPE/MAE/R²) so the UI can surface live numbers.
+- **`app.py` + `templates/` + `static/`** – Flask backend with a UX-focused single-page site that showcases the research story and exposes the prediction form.
+- **`project_config.py` / `data_utils.py`** – shared constants and helpers to avoid inconsistent preprocessing between training and inference.
 
-Green field cities face unique challenges in energy grid development due to:
-- Lack of historical consumption data
-- Rapid infrastructure development
-- Smart city features affecting traditional consumption patterns
-- Need for optimal resource allocation
+### Quick start
 
-Our ML-based solution addresses these challenges by leveraging regional data patterns and specialized feature engineering.
+1. **Set up Python deps**
 
-## 🚀 Key Features
+   ```powershell
+   python -m venv .venv
+   .\\.venv\\Scripts\\activate
+   pip install -r requirements.txt
+   ```
 
-- **Data Integration**: CEA API compatibility for real-time data access
-- **Smart City Modeling**: Accounts for efficiency improvements and renewable integration
-- **Lightweight ML Models**: Fast, accurate models suitable for real-time applications
-- **Grid Planning Insights**: Actionable recommendations for infrastructure development
-- **Google Colab Ready**: Optimized for cloud-based execution
+2. **Train / refresh the model**
 
-## 📊 Technical Approach
+   ```powershell
+   python train_model.py
+   ```
 
-### Data Sources
-- Central Electricity Authority (CEA) API
-- State-level electricity consumption patterns
-- Weather and demographic indicators
-- Smart city efficiency factors
+   - Cleans `AP-PowerSupply.csv`, adds calendar features, splits chronologically (85 % / 15 %).
+   - Stores the fitted pipeline under `models/` and evaluation stats under `artifacts/`.
 
-### Machine Learning Pipeline
-1. **Data Preprocessing**: Cleaning, outlier removal, feature scaling
-2. **Feature Engineering**: Time-based, lag, and green field city-specific features
-3. **Model Training**: Random Forest, XGBoost, and Linear Regression
-4. **Evaluation**: Comprehensive metrics and validation
-5. **Grid Planning**: Infrastructure sizing and capacity recommendations
+3. **Launch the UX**
 
-### Models Implemented
-- **Random Forest**: Fast, interpretable ensemble method
-- **XGBoost**: High-accuracy gradient boosting
-- **Linear Regression**: Baseline model for comparison
+   ```powershell
+   python app.py
+   ```
 
-## 🛠️ Installation & Usage
+   Visit `http://127.0.0.1:5000` to explore the storytelling sections, review live metrics, and submit scenarios. The form accepts the same operational fields used in the dataset, automatically injects calendar features from the chosen date, and calls `/predict` via Fetch for instant results.
 
-### Google Colab (Recommended)
-1. Open the notebook in Google Colab
-2. Run all cells sequentially
-3. All required packages will be automatically installed
+### Scenario presets & light-touch inputs
 
-### Local Environment
-```bash
-git clone https://github.com/chintanlad10/Load-forecasting.git
-cd Load-forecasting
-pip install -r requirements.txt
-jupyter notebook gujarat_load_forecasting.ipynb
+- Choose among three presets (Latest day, Median profile, Stress demand) to auto-fill the entire form with realistic baselines.
+- Tweak only the fields you actually know—leave the rest blank and the backend will fall back to the active preset, so you no longer need to provide every single number.
+- The “Input cheat sheet” on the page explains each field in plain language, making it clear what real-world value should be entered.
+
+### Customising inputs
+
+- All human-entered fields are described in `project_config.USER_INPUT_FEATURES`. Update the descriptions or add/remove keys there and re-run `train_model.py` if the feature set changes.
+- Default field values are computed from the median of the cleaned dataset. If you want seeded scenarios (e.g. last observed day), adjust `default_feature_values` in `data_utils.py`.
+
+### Testing the API without the UI
+
+```powershell
+python -c "from app import app, default_inputs, default_date; client = app.test_client(); payload = {'target_date': default_date, **default_inputs}; print(client.post('/predict', json=payload).json)"
 ```
 
-## 📈 Results
+### Next ideas
 
-Our lightweight ML models achieve:
-- **94.2% prediction accuracy** with MAPE of 5.78%
-- **Best Model**: Linear Regression (RMSE: 45.29)
-- **Real-time performance** suitable for operational forecasting
-- **Scalable methodology** adaptable to any green field city
-- **Comprehensive grid planning insights** for infrastructure development
-
-### Key Performance Metrics
-- **Peak Demand Forecasted**: 1321.3 MW
-- **Recommended Grid Capacity**: 1651.6 MW
-- **Growth Rate Identified**: 16.2% annually
-- **Smart City Efficiency**: 15% energy savings
-
-## 🏗️ Applications
-
-### GIFT City, Gujarat Case Study
-- Phase-based development modeling
-- Optimal transformer and distribution sizing
-- Smart grid integration strategies
-- Real-time load management
-
-### Adaptable to Other Cities
-- Amaravathi, Andhra Pradesh
-- Dholera Smart City, Gujarat
-- Any planned urban development
-
-## 🔮 Future Enhancements
-
-1. **Real-time Data Integration**: Live CEA API connections
-2. **IoT Sensor Integration**: Smart meter and environmental data
-3. **Advanced ML Models**: Deep learning for complex patterns
-4. **Multi-city Analysis**: Comparative studies across different cities
-5. **Economic Impact Modeling**: Cost-benefit analysis tools
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit pull requests or open issues for:
-- Model improvements
-- Additional data sources
-- New city case studies
-- Documentation enhancements
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Chintan Lad**
-- GitHub: [@chintanlad10](https://github.com/chintanlad10)
-- Project: Capstone Project - ML-driven Energy Grid Planning for Smart Cities
-
-## 🙏 Acknowledgments
-
-- Central Electricity Authority (CEA) for electricity consumption data framework
-- GIFT City, Gujarat for serving as the case study location
-- Open source ML libraries (scikit-learn, XGBoost, pandas) that made this project possible
+1. Persist multiple historical models with their review-stage metrics and add a drop-down to compare live.
+2. Stream automatic forecasts for the next 7 days using the latest recorded row plus scenario inputs.
+3. Wire alerts (email/Teams) when predicted demand crosses user-defined thresholds.

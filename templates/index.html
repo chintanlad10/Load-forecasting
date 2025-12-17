@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Greenfield City Energy Forecasts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">Greenfield City • Capstone 2025</p>
+        <h1>Energy demand forecasts built from research to real-time UX.</h1>
+        <p class="lede">
+          We distilled months of exploration across LSTM, GRU, XGBoost, and ensemble approaches into a production-ready model plus a clean experience for planners.
+        </p>
+        <div class="hero__actions">
+          <a class="btn primary" href="#predict">Launch Forecast Tool</a>
+          <a class="btn secondary" href="#method">View Modelling Stack</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="metrics" id="metrics">
+        <article class="metric-card">
+          <p class="label">MAPE</p>
+          <h2>{{ '%.2f'|format(metrics.mape) if metrics.mape is not none else '–' }}%</h2>
+          <p>Validation error on held-out months.</p>
+        </article>
+        <article class="metric-card">
+          <p class="label">MAE</p>
+          <h2>{{ '%.2f'|format(metrics.mae) if metrics.mae is not none else '–' }} MU</h2>
+          <p>Average miss in million units of energy.</p>
+        </article>
+        <article class="metric-card">
+          <p class="label">R²</p>
+          <h2>{{ '%.2f'|format(metrics.r2) if metrics.r2 is not none else '–' }}</h2>
+          <p>Explained variance for operational drivers.</p>
+        </article>
+      </section>
+
+      <section class="method" id="method">
+        <div class="section-heading">
+          <p class="eyebrow">Research to deployment</p>
+          <h2>The modelling storyline</h2>
+          <p>
+            Each review milestone added richer experimentation—from recurrent nets to boosted trees—before converging on a robust ensemble anchored by XGBoost.
+          </p>
+        </div>
+        <div class="method-grid">
+          {% for card in method_cards %}
+          <article class="method-card">
+            <div class="method-card__badge">{{ card.title }}</div>
+            <h3>{{ card.tagline }}</h3>
+            <p>{{ card.details }}</p>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="data" id="data">
+        <div class="section-heading">
+          <p class="eyebrow">Latest telemetry</p>
+          <h2>Recent AP Power Supply snapshots</h2>
+          <p>
+            Data cleaning automatically strips summary rows, coerces mixed numeric formats, and enriches each record with calendar intelligence.
+          </p>
+        </div>
+        {% if recent_rows %}
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                {% for key in recent_rows[0].keys() %}
+                <th>{{ key.replace('_', ' ') }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in recent_rows %}
+              <tr>
+                {% for value in row.values() %}
+                <td>{{ value }}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="muted">Recent data preview unavailable.</p>
+        {% endif %}
+      </section>
+
+      <section class="predict" id="predict">
+        <div class="section-heading">
+          <p class="eyebrow">Interactive sandbox</p>
+          <h2>Plan a future day</h2>
+          <p>
+            Input anticipated supply mix and system constraints, pick a date, and the trained XGBoost brain returns a projected energy requirement in seconds.
+          </p>
+        </div>
+        <form id="forecast-form" class="form-card">
+          <div class="form-field">
+            <label for="target_date">Target date</label>
+            <input type="date" id="target_date" name="target_date" value="{{ default_date }}" required />
+            <small>Select the operating day you plan to evaluate.</small>
+          </div>
+          {% if scenario_presets %}
+          <div class="scenario-field">
+            <label for="scenario_id">Scenario preset</label>
+            <select id="scenario_id" name="scenario_id">
+              {% for scenario in scenario_presets %}
+              <option value="{{ scenario.id }}">{{ scenario.label }}</option>
+              {% endfor %}
+            </select>
+            <p class="muted" id="scenario-description">{{ scenario_presets[0].description }}</p>
+          </div>
+          {% endif %}
+          <div class="form-grid">
+            {% for feature in feature_schema %}
+            <div class="form-field">
+              <label for="{{ feature.key }}">{{ feature.label }}</label>
+              <input
+                type="number"
+                step="0.01"
+                name="{{ feature.key }}"
+                id="{{ feature.key }}"
+                value="{{ '%.2f'|format(default_inputs.get(feature.key, 0)) }}"
+                required
+              />
+              <small>{{ feature.description }}</small>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="btn primary" type="submit">Generate forecast</button>
+        </form>
+        <div class="result-card" id="prediction-result">
+          <p class="eyebrow">Forecast output</p>
+          <h3>Awaiting input</h3>
+          <p>Submit the form to view the predicted Energy Required (MU).</p>
+        </div>
+      </section>
+
+      <section class="legend">
+        <div class="section-heading">
+          <p class="eyebrow">Input cheat sheet</p>
+          <h2>What each slider means in planning terms</h2>
+          <p>Every field mirrors the AP Transco daily reports so you can map your operational plan directly into the model.</p>
+        </div>
+        <div class="legend-grid">
+          {% for feature in feature_schema %}
+          <article>
+            <h4>{{ feature.label }}</h4>
+            <p class="muted">{{ feature.description }}</p>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Built for the Greenfield City Electricity Forecasting capstone. Model artifact: {{ last_trained or 'not trained yet' }}.
+      </p>
+    </footer>
+
+    <script>
+      const today = new Date().toISOString().split('T')[0];
+      const target = document.getElementById('target_date');
+      if (target && !target.value) {
+        target.value = today;
+      }
+    </script>
+    <script>
+      window.SCENARIO_PRESETS = {{ scenario_presets | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
